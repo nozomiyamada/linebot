@@ -46,8 +46,8 @@ def remove_punct(text:str) -> str:
 ## function to parse/encode query parameters and convert type
 def parse_postback(postback:str) -> dict:
 	"""
-	"question=1&score=0&answer=Get Back"
-		-> {'question': 1, 'score': 0, 'answer': 'Get Back'}
+	"question=1&score=0&answer=Help!&correct=true"
+	-> {'question': 1, 'score': 0, 'answer': 'Help!', 'correct': 'true'}
 	"""
 	result = {}
 	for parameter in  postback.split('&'):
@@ -59,7 +59,7 @@ def parse_postback(postback:str) -> dict:
 	return result
 
 def encode_postback(postback_dict:dict) -> str:
-	return '&'.join([f'{key}={value}' for key, value  in postback_dict.items()])
+	return '&'.join(f'{key}={value}' for key, value  in postback_dict.items())
 
 ## create postback label : maximum 20 chrs 
 def get_label(text:str) -> str:

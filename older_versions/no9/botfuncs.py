@@ -19,7 +19,10 @@ class _GetBySongTitle:
 
 	def get(self, query:str) -> list:
 		songtitles = search_song_title(query)
-		if len(songtitles) == 0:  ## no candidate
+		if len(songtitles) > 10:
+			reply = 'Please try again with more specific words.'
+			messages = [TextMessage(text=reply)]
+		elif len(songtitles) == 0:  ## no candidate
 			reply = 'NOT FOUND:\nPlease try again with different words.'
 			messages = [TextMessage(text=reply)]
 		elif len(songtitles) == 1:  ## only one candidate -> return URL
@@ -148,7 +151,7 @@ def create_flex_howtouse():
 					FlexSpan(text=' ' + row['command'], color='#FF0000', style='italic')
 				]),
 				FlexBox(layout='horizontal', contents=[
-					FlexText(flex=0, text='e.g.'),
+					FlexText(flex=0, text='try: '),
 					FlexText(
 						text=row['example'],
 						margin='sm',

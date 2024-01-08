@@ -113,7 +113,7 @@ def handle_postback(event):
 	## get the postback data
 	postback_data = event.postback.data
 
-	# get replay message - Postback or Message
+	## get replay message - QuickReply(with postback) or TextMessage
 	messages = create_postback_reply(postback=postback_data)
 
 	## send reply message
