@@ -5,7 +5,7 @@ from collections import Counter
 from linebot.v3.messaging import (
 	TextMessage, FlexMessage, QuickReply, QuickReplyItem,
 	MessageAction, 
-	FlexBubble, FlexBox, FlexText
+	FlexBubble, FlexBox, FlexText, FlexSpan
 )
 
 from utils import *
@@ -77,6 +77,7 @@ _GetInfo = _GetBySongTitle(
 	decorate=lambda databaseURL, songtitle: databaseURL)  
 get_info = _GetInfo.get
 
+##################################################
 
 def create_flex_lyrics(lyrics, songtitle):
 	## GET SONG INFO
@@ -119,6 +120,46 @@ def create_flex_lyrics(lyrics, songtitle):
 		bubble_container.body.contents.append(para_box)
 
 	return bubble_container
+
+
+HOW_TO_USE = pd.read_csv('data/howtouse.csv')
+HOW_TO_USE.fillna('', inplace=True)
+def create_flex_howtouse():
+	## PREPARE CONTAINER
+	container = FlexBubble(size='mega')
+	container.header = FlexBox(
+		backgroundColor='#DDDDDD',
+		layout='vertical',
+		contents=[FlexText(text='How To Use', size='xl', color='#405195', weight='bold')]
+	)
+	container.body = FlexBox(layout='vertical', spacing='md', contents=[])
+
+	## APPEND BODY CONTENT
+	for _, row in HOW_TO_USE.iterrows():
+		container.body.contents.append(FlexText(text=row['title'], weight='bold'))  ## title
+		description_box = FlexBox(layout='horizontal', contents=[FlexText(text=' ', flex=1)])
+		description_box.contents.append(FlexBox(
+			layout='vertical',
+			spacing='sm',
+			flex=10,
+			contents=[
+				FlexText(wrap=True, contents=[
+					FlexSpan(text=row['description']),
+					FlexSpan(text=' ' + row['command'], color='#FF0000', style='italic')
+				]),
+				FlexBox(layout='horizontal', contents=[
+					FlexText(flex=0, text='e.g.'),
+					FlexText(
+						text=row['example'],
+						margin='sm',
+						color='#3579F6',
+						decoration='underline',
+						action=MessageAction(text=row['example'])),
+				])
+			]
+		))
+		container.body.contents.append(description_box)
+	return [FlexMessage(altText='How To Use', contents=container)]
 
 ##################################################
 

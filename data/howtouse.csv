@@ -1,0 +1,9 @@
+title,description,command,example
+1. YouTube Mode,Find official YouTube video. Send only song title,,Hey Jude
+2. Lyrics Mode,Show lyrics of a song. Send a song title with the command,lyrics,lyrics Help
+3. Harmony Mode,Find a video of “The Beatles Vocal Harmony”. Send a song title with the command,harmony/chorus,chorus nowhere man
+4. Bass TAB Mode,Find Bass TAB from songsterr.com. Send a song title with the command,basstab,basstab boys
+5. Bass Video Mode,Find a YouTube video of bass play. Send a song title with the command,bass,bass 909
+6. Random Mode,Pick one song at random. Send the command,random,random
+7. Info Mode,Show link of “beatlesdata.info”. Send a song title with the command,info,info get back
+8. Quiz Mode,Guess the song title from the part of the lyrics. Send the command,quiz,quiz

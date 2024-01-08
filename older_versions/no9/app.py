@@ -54,7 +54,7 @@ def handle_follow(event):
 	## send reply message
 	line_bot_api.reply_message(ReplyMessageRequest(
 		replyToken=event.reply_token,
-		messages=[TextMessage(text='Thank You for adding me!')]
+		messages=[TextMessage(text='Thank You for adding me!')] + create_flex_howtouse()
 	))
 
 ## When received TEXT MESSAGE
@@ -65,8 +65,10 @@ def handle_message(event):
 	## get the text content
 	received_message = event.message.text.strip().lower() ## remove spaces
 
+	if 'how to use' in received_message:
+		messages = create_flex_howtouse()
 	## MODE : LYRICS
-	if re.match(r'(歌詞|lyrics?)', received_message):
+	elif re.match(r'(歌詞|lyrics?)', received_message):
 		query = re.sub(r'^(歌詞|lyrics?)', '', received_message)  ## remove prefix
 		messages = get_lyrics(query)
 	## MODE : HARMONY
@@ -85,6 +87,9 @@ def handle_message(event):
 	elif re.match(r'(info|データ)', received_message):
 		query = re.sub(r'^(info|データ)', '', received_message)  ## remove prefix
 		messages = get_info(query)
+	## MODE : RANDOM
+	elif re.match(r'(random|ランダム)', received_message):
+		messages = get_official_youtube(random.choice(SONGS))
 	## MODE : LYRICS QUIZ
 	elif re.match(r'(歌詞\s*)?(クイズ|quiz)', received_message):
 		postback = 'question=0&score=0&answer=NONE&correct=true'
