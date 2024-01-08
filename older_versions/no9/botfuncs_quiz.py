@@ -7,15 +7,16 @@ from linebot.v3.messaging import (
 	PostbackAction, FlexMessage, FlexBubble, FlexBox, FlexText
 )
 
+## function to get part of lyrics and other 3 choices
 def create_lyrics_quiz(previous_answer=None):
-	songs_to_drop = ['Flying', 'Revolution 9']
+	songs_to_drop = ['Flying', 'Revolution 9'] ## no lyrics
 	if previous_answer != None:
-		songs_to_drop.append(previous_answer)
+		songs_to_drop.append(previous_answer)  ## exclude previous answer
 	selected_song = DATA.drop(index=songs_to_drop)['lyrics'].sample(4)
-	answer_title = selected_song.index[0]
-	wrong_titles = selected_song.index[1:]
+	answer_title = selected_song.index[0]  ## correct answer 
+	wrong_titles = selected_song.index[1:]  ## wrong answers
 	selected_song_tokens = selected_song.iloc[0].split()
-	token_length = random.randint(5, 9)
+	token_length = random.randint(5, 9)  ## num of tokens 
 	start_token_index = random.randint(0, len(selected_song_tokens)-token_length)
 	partial_lyrics = ' '.join(selected_song_tokens[start_token_index:start_token_index+token_length])
 	
@@ -28,7 +29,7 @@ def create_postback_reply(postback):
 	reply_bubble = FlexBubble()
 
 	## HEADER - display previous answer
-	if postback_dict['question'] == 0: ## first question
+	if postback_dict['answer'] == 'NONE': ## first question
 		reply_bubble.header =FlexBox(
 			layout='vertical',
 			contents = [FlexText(text='Lyrics Quiz Start!')]
@@ -46,7 +47,7 @@ def create_postback_reply(postback):
 
 	## make quick reply items
 	if postback_dict['question'] <= 5: ## previous question No.
-		if postback_dict['question'] == 0: ## first question
+		if postback_dict['answer'] == 'NONE': ## first question
 			partial_lyrics, answer_title, wrong_titles = create_lyrics_quiz()
 		else:
 			partial_lyrics, answer_title, wrong_titles = create_lyrics_quiz(postback_dict['answer']) ## drop previous answer

@@ -15,7 +15,7 @@ from botfuncs import *
 from botfuncs_quiz import *
 
 ## load `.env` file
-## if test bot, use `load_dotenv('test.env')` instead 
+## if test bot, use `load_dotenv('test.env', override=True)` instead 
 from dotenv import load_dotenv
 load_dotenv()
 
