@@ -13,6 +13,7 @@
     <div class="container">
       <p>
         <input type="text" class="form-control-lg mt-3" id="songtitle" placeholder="enter song title">
+        <script>document.getElementById('songtitle').focus();</script>
       </p>
       <div class="d-grid gap-1 col-10 mx-auto">
         <button class="btn btn-danger btn-lg" onclick="send_message('');">YouTube</button>
@@ -41,7 +42,7 @@
     }else{
       liff.sendMessages([{
         type: 'text',
-        text: prefix + ' ' + songtitle
+        text: (prefix + ' ' + songtitle).trim()
       }]).then(() => {
         liff.closeWindow();
       })
