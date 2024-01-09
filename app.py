@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from flask import Flask, request, abort
+from flask import render_template, make_response
 from linebot.v3 import WebhookHandler
 from linebot.v3.exceptions import InvalidSignatureError
 from linebot.v3.messaging import (
@@ -127,7 +128,7 @@ def handle_postback(event):
 ## toppage of website - Hello world!
 @app.route('/', methods=['GET'])
 def toppage():
-	return 'Hello world!'
+	return render_template('layout.html')
 
 if __name__ == "__main__":
 	app.run(host="0.0.0.0", port=8000, debug=True)

@@ -3,7 +3,7 @@ from utils import *
 import random
 
 from linebot.v3.messaging import (
-	TextMessage, QuickReply, QuickReplyItem,
+	TextMessage, QuickReply, QuickReplyItem, StickerMessage,
 	PostbackAction, FlexMessage, FlexBubble, FlexBox, FlexText
 )
 
@@ -98,7 +98,7 @@ def create_postback_reply(postback):
 		)
 
 		## FOOTER - evaluation message 
-		result_message = {
+		result_evaluation = {
 			5: 'You are the true Beatlemania!',
 			4: 'Close! Just a little more!',
 			3: 'You are an ordinary fan',
@@ -108,6 +108,22 @@ def create_postback_reply(postback):
 		}[postback_dict['score']]
 		reply_bubble.footer = FlexBox(
 			layout='vertical',
-			contents=[FlexText(text=result_message, wrap=True, weight='bold', align='center')]
+			contents=[FlexText(text=result_evaluation, wrap=True, weight='bold', align='center')]
 		)
-		return [FlexMessage(altText=f'SCORE : {postback_dict["score"]} / 5', contents=reply_bubble)]
+		messages = [FlexMessage(altText=f'SCORE : {postback_dict["score"]} / 5', contents=reply_bubble)]
+		if postback_dict['score'] == 0: ## if score is 0, send a sticker
+			messages.append(random.choice([
+				StickerMessage(packageId="789", stickerId="10887"),
+				StickerMessage(packageId="11537", stickerId="52002750"),
+				StickerMessage(packageId="11538", stickerId="51626522"),
+				StickerMessage(packageId="11539", stickerId="52114149")
+			]))
+		elif postback_dict['score'] == 5: 
+			messages.append(random.choice([
+				StickerMessage(packageId="11537", stickerId="52002734"),
+				StickerMessage(packageId="11537", stickerId="52002735"),
+				StickerMessage(packageId="11538", stickerId="51626505"),
+				StickerMessage(packageId="11539", stickerId="52114116")
+			]))
+
+		return messages

@@ -8,6 +8,7 @@ Explanation of code in Japanese : see [Qiita](https://qiita.com/nozomiyamada/ite
 - `pip==23.3.1`
 - `Flask==3.0.0`
 - `line-bot-sdk==3.7.0` use `linebot.v3`
+- `Bootstrap v5.3.2`
 
 deployed to https://render.com/
 
