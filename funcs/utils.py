@@ -7,7 +7,9 @@ DATA = pd.read_csv('data/beatles.csv', index_col='song') ## set song title as in
 DATA['lyrics'] = DATA['lyrics'].apply(lambda x: x.replace('<br>', '\n'))
 SONGS = DATA.index  ## list of song title
 ALBUM_YEAR = pd.read_csv('data/album_year.csv', index_col='album')['year'] ## pd.Series
-INTRO = pd.read_csv('data/intro.csv', index_col='song')
+INTRO_QUIZ = pd.read_csv('data/introquiz.csv') ## ID is row index
+LYRICS_QUIZ = pd.read_csv('data/lyricsquiz.csv') ## ID is row index
+LYRICS_QUIZ['lyrics'] = LYRICS_QUIZ['lyrics'].apply(lambda x: x.replace('<br>', '\n'))
 
 ## function to get Levenshtein distance between 2 strings
 def levenshtein(str1, str2) -> int:
@@ -51,9 +53,9 @@ def parse_postback(postback:str) -> dict:
 	"mode=lyrics&question=1&score=0&answer=Help!&correct=true"
 	-> {'mode':'lyrics', 'question': 1, 'score': 0, 'answer': 'Help!', 'correct': 'true'}
 
-	"mode=introquiz&level=0&question=0&score=0&answer=Dig It&asked=@Help!@Girl&correct=true"
+	"mode=introquiz&level=0&question=0&score=0&answer=Dig It&asked=@3@14&correct=true"
 	-> {'mode': 'introquiz', 'level': 0, 'question': 0, 'score': 0,
-		'answer': 'Dig It', 'asked': ['Help!', 'Girl'], 'correct': 'true'}
+		'answer': 'Dig It', 'asked': [3, 14], 'correct': 'true'}
 	"""
 	result = {}
 	for parameter in  postback.split('&'):
@@ -66,14 +68,14 @@ def parse_postback(postback:str) -> dict:
 			elif value == '@':
 				result[key] = []
 			else:
-				result[key] = re.findall(r'@([^@]+)', value)
+				result[key] = list(map(int, re.findall(r'@([^@]+)', value)))
 	return result
 
 def encode_postback(postback_dict:dict) -> str:
 	key_value_list = []
 	for key, value  in postback_dict.items():
 		if type(value) == list:
-			value = '@' + '@'.join(value)
+			value = '@' + '@'.join(map(str, value))
 		key_value_list.append(f'{key}={value}')
 	return '&'.join(key_value_list)
 
