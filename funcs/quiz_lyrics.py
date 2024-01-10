@@ -1,11 +1,13 @@
 
-from utils import *
+from funcs.utils import *
 import random
 
 from linebot.v3.messaging import (
 	QuickReply, QuickReplyItem, StickerMessage,
 	PostbackAction, FlexMessage, FlexBubble, FlexBox, FlexText
 )
+
+##################################################
 
 ## function to get part of lyrics and other 3 choices
 def create_lyrics_quiz(previous_answer=None):
@@ -22,7 +24,7 @@ def create_lyrics_quiz(previous_answer=None):
 	
 	return partial_lyrics.lower(), answer_title, wrong_titles
 
-def create_postback_reply(postback):
+def create_lyricsquiz_postback(postback):
 	postback_dict = parse_postback(postback)
 	postback_dict['question'] += 1 ## present question number
 
@@ -125,5 +127,7 @@ def create_postback_reply(postback):
 				StickerMessage(packageId="11538", stickerId="51626505"),
 				StickerMessage(packageId="11539", stickerId="52114116")
 			]))
-
 		return messages
+	
+##################################################
+	

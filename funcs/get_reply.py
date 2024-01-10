@@ -8,7 +8,7 @@ from linebot.v3.messaging import (
 	FlexBubble, FlexBox, FlexText, FlexSpan
 )
 
-from utils import *
+from funcs.utils import *
 
 ## CLASS FOR GET INFORMATION BY SONG TITLE
 class _GetBySongTitle:

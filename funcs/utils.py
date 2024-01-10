@@ -1,11 +1,13 @@
 import re
 import pandas as pd
+from glob import glob
 
 ## LOAD DATA
 DATA = pd.read_csv('data/beatles.csv', index_col='song') ## set song title as index 
 DATA['lyrics'] = DATA['lyrics'].apply(lambda x: x.replace('<br>', '\n'))
 SONGS = DATA.index  ## list of song title
 ALBUM_YEAR = pd.read_csv('data/album_year.csv', index_col='album')['year'] ## pd.Series
+INTRO = pd.read_csv('data/intro.csv', index_col='song')
 
 ## function to get Levenshtein distance between 2 strings
 def levenshtein(str1, str2) -> int:
@@ -46,8 +48,12 @@ def remove_punct(text:str) -> str:
 ## function to parse/encode query parameters and convert type
 def parse_postback(postback:str) -> dict:
 	"""
-	"question=1&score=0&answer=Help!&correct=true"
-	-> {'question': 1, 'score': 0, 'answer': 'Help!', 'correct': 'true'}
+	"mode=lyrics&question=1&score=0&answer=Help!&correct=true"
+	-> {'mode':'lyrics', 'question': 1, 'score': 0, 'answer': 'Help!', 'correct': 'true'}
+
+	"mode=introquiz&level=0&question=0&score=0&answer=Dig It&asked=@Help!@Girl&correct=true"
+	-> {'mode': 'introquiz', 'level': 0, 'question': 0, 'score': 0,
+		'answer': 'Dig It', 'asked': ['Help!', 'Girl'], 'correct': 'true'}
 	"""
 	result = {}
 	for parameter in  postback.split('&'):
@@ -55,11 +61,21 @@ def parse_postback(postback:str) -> dict:
 		try:
 			result[key] = int(value)
 		except:
-			result[key] = value
+			if '@' not in value:
+				result[key] = value
+			elif value == '@':
+				result[key] = []
+			else:
+				result[key] = re.findall(r'@([^@]+)', value)
 	return result
 
 def encode_postback(postback_dict:dict) -> str:
-	return '&'.join(f'{key}={value}' for key, value  in postback_dict.items())
+	key_value_list = []
+	for key, value  in postback_dict.items():
+		if type(value) == list:
+			value = '@' + '@'.join(value)
+		key_value_list.append(f'{key}={value}')
+	return '&'.join(key_value_list)
 
 ## create postback label : maximum 20 chrs 
 def get_label(text:str) -> str:

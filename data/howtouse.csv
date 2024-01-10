@@ -6,4 +6,5 @@ title,description,command,example
 5. Bass Video Mode,Find a YouTube video of bass play. Send a song title with the command,bass,bass 909
 6. Random Mode,Pick one song at random. Send the command,random,random
 7. Info Mode,Show link of “beatlesdata.info”. Send a song title with the command,info,info get back
-8. Quiz Mode,Quiz to guess the song title from the part of the lyrics. Send the command,quiz,quiz
+8. Lyrics Quiz Mode,Quiz to guess the song title from the part of the lyrics. Send the command,quiz,quiz
+9. Intro Quiz Mode,Quiz to guess the song title from the intro. Send the command,intro,intro

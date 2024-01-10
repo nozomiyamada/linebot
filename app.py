@@ -9,10 +9,9 @@ from linebot.v3.messaging import (
 from linebot.v3.webhooks import (
 	FollowEvent, MessageEvent, PostbackEvent, TextMessageContent
 )
-import os, re
+import os, re, random
 
-from botfuncs import *
-from botfuncs_quiz import *
+from funcs import *
 
 ## load `.env` file
 ## if test bot, use `load_dotenv('test.env', override=True)` instead 
@@ -92,8 +91,12 @@ def handle_message(event):
 		messages = get_official_youtube(random.choice(SONGS))
 	## MODE : LYRICS QUIZ
 	elif re.match(r'(歌詞\s*)?(クイズ|quiz)', received_message):
-		postback = 'question=0&score=0&answer=NONE&correct=true'
-		messages = create_postback_reply(postback=postback)
+		postback = 'mode=lyricsquiz&question=0&score=0&answer=NONE&correct=true'
+		messages = create_lyricsquiz_postback(postback=postback)
+	## MODE : LYRICS QUIZ
+	elif re.match(r'(intro|イントロ)(quiz|クイズ)?', received_message):
+		postback = 'mode=introquiz&level=0&question=0&score=0&answer=NONE&asked=@&correct=true'
+		messages = create_introquiz_postback(postback=postback)
 	## MODE : OFFICIAL YOUTUBE
 	else:
 		messages = get_official_youtube(received_message)
@@ -114,7 +117,10 @@ def handle_postback(event):
 	postback_data = event.postback.data
 
 	## get replay message - QuickReply(with postback) or TextMessage
-	messages = create_postback_reply(postback=postback_data)
+	if 'mode=lyricsquiz' in postback_data:
+		messages = create_lyricsquiz_postback(postback=postback_data)
+	elif 'mode=introquiz' in postback_data:
+		messages = create_introquiz_postback(postback=postback_data)
 
 	## send reply message
 	line_bot_api.reply_message(ReplyMessageRequest(
