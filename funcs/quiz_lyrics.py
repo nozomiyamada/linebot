@@ -67,7 +67,7 @@ def create_lyricsquiz_postback(postback):
 	## make quick reply items
 	if postback_dict['question'] <= postback_dict['num']: ## present question No. <= total num
 		level = postback_dict['level']
-		num_choices = {1:4, 2:4, 3:5, 4:6}[level]
+		num_choices = {1:6, 2:5, 3:4, 4:4}[level]
 
 		if postback_dict['answer'] == 'NONE': ## first question
 			partial_lyrics, answer_title, wrong_titles = create_lyrics_quiz(None, level, num_choices)
