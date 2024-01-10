@@ -1,4 +1,3 @@
-
 from funcs.utils import *
 import random
 
@@ -36,7 +35,7 @@ def create_lyricsquiz_postback(postback):
 	## START Lyrics QUIZ - SELECT LEVEL
 	if postback_dict['level'] == 0:
 		quickreply = QuickReply(items=[])
-		for level in range(4, 0):
+		for level in range(4, 0, -1):
 			label = {4:'beginner', 3:'normal', 2:'hard', 1:'god'}[level]
 			postback_dict['level'] = level
 			if level == 1:
@@ -145,7 +144,7 @@ def create_lyricsquiz_postback(postback):
 				1: 'Please Help Me!',
 				0: 'Paul is crying'
 			}[postback_dict['score']]
-			
+
 		reply_bubble.footer = FlexBox(
 			layout='vertical',
 			contents=[FlexText(text=result_evaluation, wrap=True, weight='bold', align='center')]
