@@ -10,11 +10,11 @@ from linebot.v3.messaging import (
 ##################################################
 
 ## function to get part of lyrics and other 3 choices
-def create_intro_quiz(previous_answers=None, level=1):
+def create_intro_quiz(previous_answers=None, level=1, num_choices=4):
 	songs_to_drop = [] 
 	if previous_answers != None:
 		songs_to_drop += previous_answers  ## exclude previous answer
-	selected_song = INTRO[INTRO.level <= level].drop(index=songs_to_drop).sample(4)
+	selected_song = INTRO[INTRO.level <= level].drop(index=songs_to_drop).sample(num_choices)
 	answer_title = selected_song.index[0]  ## correct answer 
 	wrong_titles = selected_song.index[1:]  ## wrong answers
 	duration = selected_song['duration'].values[0]
@@ -29,7 +29,7 @@ def create_introquiz_postback(postback):
 	if postback_dict['level'] == 0:
 		quickreply = QuickReply(items=[])
 		for level in range(1, 5):
-			label = {1:'beginner', 2:'normal', 3:'hard', 4:'all songs'}[level]
+			label = {1:'beginner', 2:'normal', 3:'hard', 4:'god'}[level]
 			postback_dict['level'] = level
 			if level == 4:
 				postback_dict['num'] = 10
@@ -59,10 +59,11 @@ def create_introquiz_postback(postback):
 
 	## make quick reply items
 	if postback_dict['question'] <= postback_dict['num']: ## present question No. <= total num
+		num_choices = {1:4, 2:4, 3:5, 4:6}[postback_dict['level']]
 		if postback_dict['answer'] == 'NONE': ## first question
-			answer_song_url, answer_title, wrong_titles, duration = create_intro_quiz(level=postback_dict['level'])
+			answer_song_url, answer_title, wrong_titles, duration = create_intro_quiz(level=postback_dict['level'], num_choices=num_choices)
 		else:
-			answer_song_url, answer_title, wrong_titles, duration = create_intro_quiz(postback_dict['asked'],postback_dict['level']) ## drop previous answer
+			answer_song_url, answer_title, wrong_titles, duration = create_intro_quiz(postback_dict['asked'],postback_dict['level'], num_choices=num_choices) ## drop previous answer
 		
 		postback_dict['answer'] = answer_title  ## update answer song
 		postback_dict['asked'].append(answer_title)
@@ -83,7 +84,7 @@ def create_introquiz_postback(postback):
 		quickreply_buttons.append(item)
 
 		## shuffle button items
-		quickreply = QuickReply(items=random.sample(quickreply_buttons, 4))
+		quickreply = QuickReply(items=random.sample(quickreply_buttons, len(quickreply_buttons)))
 
 		## BODY - display question No.
 		reply_bubble.footer = FlexBox(
@@ -116,7 +117,7 @@ def create_introquiz_postback(postback):
 		## FOOTER - evaluation message
 		if postback_dict['num'] == 5:
 			result_evaluation = {
-				5: 'You are the true Beatlemania!',
+				5: 'You are a good fan!',
 				4: 'Close! Just a little more!',
 				3: 'You are an ordinary fan',
 				2: 'Study more about The Beatles',
