@@ -95,7 +95,7 @@ def handle_message(event):
 		messages = create_lyricsquiz_postback(postback=postback)
 	## MODE : LYRICS QUIZ
 	elif re.match(r'(intro|イントロ)(quiz|クイズ)?', received_message):
-		postback = 'mode=introquiz&level=0&num=&5question=0&score=0&answer=NONE&asked=@&correct=true'
+		postback = 'mode=introquiz&level=0&num=5&question=0&score=0&answer=NONE&asked=@&correct=true'
 		messages = create_introquiz_postback(postback=postback)
 	## MODE : OFFICIAL YOUTUBE
 	else:
