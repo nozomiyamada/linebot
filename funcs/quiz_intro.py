@@ -1,7 +1,6 @@
 
 from funcs.utils import *
-import random, re, urllib
-
+import random,  urllib
 
 from linebot.v3.messaging import (
 	TextMessage, QuickReply, QuickReplyItem, StickerMessage, AudioMessage,
@@ -32,11 +31,13 @@ def create_introquiz_postback(postback):
 		for level in range(1, 5):
 			label = {1:'beginner', 2:'normal', 3:'hard', 4:'all songs'}[level]
 			postback_dict['level'] = level
+			if level == 4:
+				postback_dict['num'] = 10
 			item = QuickReplyItem(action=PostbackAction(label=label, displayText=label, data=encode_postback(postback_dict)))
 			quickreply.items.append(item)
 		return [TextMessage(text='select level', quickReply=quickreply)]
 	
-	postback_dict['question'] += 1 ## present question number
+	postback_dict['question'] += 1 ## present question number + 1
 	reply_bubble = FlexBubble()
 
 	## HEADER - display previous answer
@@ -57,7 +58,7 @@ def create_introquiz_postback(postback):
 		)
 
 	## make quick reply items
-	if postback_dict['question'] <= 5: ## previous question No.
+	if postback_dict['question'] <= postback_dict['num']: ## present question No. <= total num
 		if postback_dict['answer'] == 'NONE': ## first question
 			answer_song_url, answer_title, wrong_titles, duration = create_intro_quiz(level=postback_dict['level'])
 		else:
@@ -109,23 +110,38 @@ def create_introquiz_postback(postback):
 			layout='vertical',
 			backgroundColor='#EEEEEE',
 			paddingAll='xs',
-			contents=[FlexText(text=f'SCORE : {postback_dict["score"]} / 5', size='xl', weight='bold', align='center')]
+			contents=[FlexText(text=f'SCORE : {postback_dict["score"]} / {postback_dict["num"]}', size='xl', weight='bold', align='center')]
 		)
 
-		## FOOTER - evaluation message 
-		result_evaluation = {
-			5: 'You are the true Beatlemania!',
-			4: 'Close! Just a little more!',
-			3: 'You are an ordinary fan',
-			2: 'Study more about The Beatles',
-			1: 'Please Help Me!',
-			0: 'Paul is crying'
-		}[postback_dict['score']]
+		## FOOTER - evaluation message
+		if postback_dict['num'] == 5:
+			result_evaluation = {
+				5: 'You are the true Beatlemania!',
+				4: 'Close! Just a little more!',
+				3: 'You are an ordinary fan',
+				2: 'Study more about The Beatles',
+				1: 'Please Help Me!',
+				0: 'Paul is crying'
+			}[postback_dict['score']]
+		else:
+			result_evaluation = {
+				10: 'You are the true Beatlemania!',
+				9: 'Close! Just a little more!',
+				8: 'Close! Just a little more!',
+				7: 'You\'re a good fan',
+				6: 'You\'re a good fan',
+				5: 'You are an ordinary fan',
+				4: 'You are an ordinary fan',
+				3: 'Study more about The Beatles',
+				2: 'Study more about The Beatles',
+				1: 'Please Help Me!',
+				0: 'Paul is crying'
+			}[postback_dict['score']]
 		reply_bubble.footer = FlexBox(
 			layout='vertical',
 			contents=[FlexText(text=result_evaluation, wrap=True, weight='bold', align='center')]
 		)
-		messages = [FlexMessage(altText=f'SCORE : {postback_dict["score"]} / 5', contents=reply_bubble)]
+		messages = [FlexMessage(altText=f'SCORE : {postback_dict["score"]} / {postback_dict["num"]}', contents=reply_bubble)]
 		if postback_dict['score'] == 0: ## if score is 0, send a sticker
 			messages.append(random.choice([
 				StickerMessage(packageId="789", stickerId="10887"),
@@ -133,7 +149,7 @@ def create_introquiz_postback(postback):
 				StickerMessage(packageId="11538", stickerId="51626522"),
 				StickerMessage(packageId="11539", stickerId="52114149")
 			]))
-		elif postback_dict['score'] == 5: 
+		elif postback_dict['score'] == postback_dict['num']: 
 			messages.append(random.choice([
 				StickerMessage(packageId="11537", stickerId="52002734"),
 				StickerMessage(packageId="11537", stickerId="52002735"),
