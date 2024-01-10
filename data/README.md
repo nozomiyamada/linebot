@@ -7,6 +7,11 @@
 |`song`|song title (**DISTINCT**). If the song is in more than one album, only one album is chosen. e.g. _Get Back_ -> in the album _Let It Be_  |
 |`album`|album title that contains the song|
 |`year`|recording year|
+|`popularity`|popularity criteria :
+||`4` : the song is in the album _Beatles 1_ (**27** songs)|
+|| `3`- the song in inthe album _The Beatles 1962-1966/1967-1970_ (**27** songs)|
+|| `2`- the song in inthe album _The Beatles 1962-1966/1967-1970 (2023 version)_ (**21** songs)|
+|| `1`- everything else (**141** songs)|
 |`duration`|duration of the song [milliseconds] (note: duration varies depending on the version)|
 |`vocal`|main vocal : John, Paul, George or Ringo. Some songs have two main vocals, e.g. _She Loves You_|
 |`harmony`|members who sing harmony / back chorus|

@@ -223,8 +223,8 @@ Love Me Do,Beatles 1,1
 From Me To You,Beatles 1,2
 She Loves You,Beatles 1,3
 I Want To Hold Your Hand,Beatles 1,4
-Can’t Buy Me Love,Beatles 1,5
-A Hard Day’s Night,Beatles 1,6
+Can't Buy Me Love,Beatles 1,5
+A Hard Day's Night,Beatles 1,6
 I Feel Fine,Beatles 1,7
 Eight Days A Week,Beatles 1,8
 Ticket To Ride,Beatles 1,9
@@ -237,7 +237,7 @@ Yellow Submarine,Beatles 1,15
 Eleanor Rigby,Beatles 1,16
 Penny Lane,Beatles 1,17
 All You Need Is Love,Beatles 1,18
-Hello Goodbye,Beatles 1,19
+"Hello, Goodbye",Beatles 1,19
 Lady Madonna,Beatles 1,20
 Hey Jude,Beatles 1,21
 Get Back,Beatles 1,22
@@ -248,23 +248,23 @@ Let It Be,Beatles 1,26
 The Long And Winding Road,Beatles 1,27
 Love Me Do,The Beatles / 1962-1966,1-1
 Please Please Me,The Beatles / 1962-1966,1-2
-From MeTo You,The Beatles / 1962-1966,1-3
+From Me To You,The Beatles / 1962-1966,1-3
 She Loves You,The Beatles / 1962-1966,1-4
 I Want To Hold Your Hand,The Beatles / 1962-1966,1-5
 All My Loving,The Beatles / 1962-1966,1-6
-Can’t Buy Me Love,The Beatles / 1962-1966,1-7
-A Hard Day’s Night,The Beatles / 1962-1966,1-8
+Can't Buy Me Love,The Beatles / 1962-1966,1-7
+A Hard Day's Night,The Beatles / 1962-1966,1-8
 And I Love Her,The Beatles / 1962-1966,1-9
 Eight Days A Week,The Beatles / 1962-1966,1-10
 I Feel Fine,The Beatles / 1962-1966,1-11
 Ticket To Ride,The Beatles / 1962-1966,1-12
 Yesterday,The Beatles / 1962-1966,1-13
 Help!,The Beatles / 1962-1966,2-1
-You’ve Got To Hide Your Love Away,The Beatles / 1962-1966,2-2
+You've Got To Hide Your Love Away,The Beatles / 1962-1966,2-2
 We Can Work It Out,The Beatles / 1962-1966,2-3
 Day Tripper,The Beatles / 1962-1966,2-4
 Drive My Car,The Beatles / 1962-1966,2-5
-Norwegian Wood (This Bird Has Flown),The Beatles / 1962-1966,2-6
+Norwegian Wood,The Beatles / 1962-1966,2-6
 Nowhere Man,The Beatles / 1962-1966,2-7
 Michelle,The Beatles / 1962-1966,2-8
 In My Life,The Beatles / 1962-1966,2-9
@@ -410,3 +410,78 @@ Because,Anthology 3,2-20
 Let It Be,Anthology 3,2-21
 I Me Mine,Anthology 3,2-22
 The End,Anthology 3,2-23
+Love Me Do,The Beatles / 1962-1966 (2023),1-1
+Please Please Me,The Beatles / 1962-1966 (2023),1-2
+I Saw Her Standing There,The Beatles / 1962-1966 (2023),1-3
+Twist And Shout,The Beatles / 1962-1966 (2023),1-4
+From Me To You,The Beatles / 1962-1966 (2023),1-5
+She Loves You,The Beatles / 1962-1966 (2023),1-6
+I Want To Hold Your Hand,The Beatles / 1962-1966 (2023),1-7
+This Boy,The Beatles / 1962-1966 (2023),1-8
+All My Loving,The Beatles / 1962-1966 (2023),1-9
+Roll Over Beethoven,The Beatles / 1962-1966 (2023),1-10
+You Really Got A Hold On Me,The Beatles / 1962-1966 (2023),1-11
+Can't Buy Me Love,The Beatles / 1962-1966 (2023),1-12
+You Can't Do That,The Beatles / 1962-1966 (2023),1-12
+A Hard Day's Night,The Beatles / 1962-1966 (2023),1-14
+And I Love Her,The Beatles / 1962-1966 (2023),1-15
+Eight Days A Week,The Beatles / 1962-1966 (2023),1-16
+I Feel Fine,The Beatles / 1962-1966 (2023),1-17
+Ticket To Ride,The Beatles / 1962-1966 (2023),1-18
+Yesterday,The Beatles / 1962-1966 (2023),1-19
+Help!,The Beatles / 1962-1966 (2023),2-1
+You've Got To Hide Your Love Away,The Beatles / 1962-1966 (2023),2-2
+We Can Work It Out,The Beatles / 1962-1966 (2023),2-3
+Day Tripper,The Beatles / 1962-1966 (2023),2-4
+Drive My Car,The Beatles / 1962-1966 (2023),2-5
+Norwegian Wood,The Beatles / 1962-1966 (2023),2-6
+Nowhere Man,The Beatles / 1962-1966 (2023),2-7
+Michelle,The Beatles / 1962-1966 (2023),2-8
+In My Life,The Beatles / 1962-1966 (2023),2-9
+If I Needed Someone,The Beatles / 1962-1966 (2023),2-10
+Girl,The Beatles / 1962-1966 (2023),2-11
+Paperback Writer,The Beatles / 1962-1966 (2023),2-12
+Eleanor Rigby,The Beatles / 1962-1966 (2023),2-13
+Yellow Submarine,The Beatles / 1962-1966 (2023),2-14
+Taxman,The Beatles / 1962-1966 (2023),2-15
+Got To Get You Into My Life,The Beatles / 1962-1966 (2023),2-16
+I'm Only Sleeping,The Beatles / 1962-1966 (2023),2-17
+"Here, There And Everywhere",The Beatles / 1962-1966 (2023),2-18
+Tomorrow Never Knows,The Beatles / 1962-1966 (2023),2-19
+Strawberry Fields Forever,The Beatles / 1967-1970,1-1
+Penny Lane,The Beatles / 1967-1970 (2023),1-2
+Sgt. Pepper's Lonely Hearts Club Band,The Beatles / 1967-1970 (2023),1-3
+With A Little Help From My Friends,The Beatles / 1967-1970 (2023),1-4
+Lucy In The Sky With Diamonds,The Beatles / 1967-1970 (2023),1-5
+Within You Without You,The Beatles / 1967-1970 (2023),1-6
+A Day In The Life,The Beatles / 1967-1970 (2023),1-7
+All You Need Is Love,The Beatles / 1967-1970 (2023),1-8
+I Am The Walrus,The Beatles / 1967-1970 (2023),1-9
+"Hello, Goodbye",The Beatles / 1967-1970 (2023),1-10
+The Fool On The Hill,The Beatles / 1967-1970 (2023),1-11
+Magical Mystery Tour,The Beatles / 1967-1970 (2023),1-12
+Lady Madonna,The Beatles / 1967-1970 (2023),1-13
+Hey Jude,The Beatles / 1967-1970 (2023),1-14
+Revolution,The Beatles / 1967-1970 (2023),1-15
+Back In The U.S.S.R.,The Beatles / 1967-1970 (2023),2-1
+Dear Prudence,The Beatles / 1967-1970 (2023),2-2
+While My Guitar Gently Weeps,The Beatles / 1967-1970 (2023),2-3
+"Ob-La-Di, Ob-La-Da",The Beatles / 1967-1970 (2023),2-4
+Glass Onion,The Beatles / 1967-1970 (2023),2-5
+Blackbird,The Beatles / 1967-1970 (2023),2-6
+Hey Bulldog,The Beatles / 1967-1970 (2023),2-7
+Get Back,The Beatles / 1967-1970 (2023),2-8
+Don't Let Me Down,The Beatles / 1967-1970 (2023),2-9
+The Ballad Of John And Yoko,The Beatles / 1967-1970 (2023),2-10
+Old Brown Shoe,The Beatles / 1967-1970 (2023),2-11
+Here Comes The Sun,The Beatles / 1967-1970 (2023),2-12
+Come Together,The Beatles / 1967-1970 (2023),2-13
+Something,The Beatles / 1967-1970 (2023),2-14
+Octopus's Garden,The Beatles / 1967-1970 (2023),2-15
+Oh! Darling,The Beatles / 1967-1970 (2023),2-16
+I Want You (She's So Heavy),The Beatles / 1967-1970 (2023),2-17
+Let It Be,The Beatles / 1967-1970 (2023),2-18
+Across The Universe,The Beatles / 1967-1970 (2023),2-19
+I Me Mine,The Beatles / 1967-1970 (2023),2-20
+The Long And Winding Road,The Beatles / 1967-1970 (2023),2-21
+Now And Then,The Beatles / 1967-1970 (2023),2-22
