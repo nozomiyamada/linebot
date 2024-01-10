@@ -72,7 +72,7 @@ def create_lyricsquiz_postback(postback):
 		if postback_dict['answer'] == 'NONE': ## first question
 			partial_lyrics, answer_title, wrong_titles = create_lyrics_quiz(None, level, num_choices)
 		else:
-			partial_lyrics, answer_title, wrong_titles = create_lyrics_quiz(postback_dict['asked', level, num_choices]) ## drop previous answer
+			partial_lyrics, answer_title, wrong_titles = create_lyrics_quiz(postback_dict['asked'], level, num_choices) ## drop previous answer
 		
 		postback_dict['answer'] = answer_title  ## update answer song
 		postback_dict['asked'].append(answer_title)
