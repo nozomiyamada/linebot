@@ -11,7 +11,10 @@ from linebot.v3.messaging import (
 ## function to get part of lyrics and other 3 choices
 ## level 1 = god, level 4 = beginner
 def create_lyrics_quiz(previous_answers=None, level=1, num_choices=4):
-	songs_to_drop = ['Flying', 'Revolution 9'] ## no lyrics
+	if level == 1:
+		songs_to_drop = ['Flying', 'Revolution 9'] ## no lyrics
+	else:
+		songs_to_drop = []
 	if previous_answers != None:
 		songs_to_drop += previous_answers  ## exclude previous answers
 	selected_song = DATA[DATA.popularity >= level].drop(index=songs_to_drop)['lyrics'].sample(num_choices)
