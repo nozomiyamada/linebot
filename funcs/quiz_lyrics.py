@@ -93,7 +93,7 @@ def create_lyricsquiz_postback(postback):
 		quickreply_buttons.append(item)
 
 		## shuffle button items
-		quickreply = QuickReply(items=random.sample(quickreply_buttons, 4))
+		quickreply = QuickReply(items=random.sample(quickreply_buttons, len(quickreply_buttons)))
 
 		## BODY - display question No.
 		reply_bubble.body = FlexBox(
