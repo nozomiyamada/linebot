@@ -19,7 +19,7 @@ def create_lyrics_quiz(previous_answers=None, level=1, num_choices=4):
 	wrong_titles = selected_song.index[1:]  ## wrong answers
 	selected_song_tokens = selected_song.iloc[0].split()
 	if level == 1:
-		token_length = random.randint(5, 7)  ## level god : a few num of tokens 
+		token_length = random.randint(4, 6)  ## level god : a few num of tokens 
 	elif level <= 3:
 		token_length = random.randint(6, 10)
 	elif level == 4:
