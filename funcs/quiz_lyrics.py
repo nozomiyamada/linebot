@@ -3,22 +3,28 @@ from funcs.utils import *
 import random
 
 from linebot.v3.messaging import (
-	QuickReply, QuickReplyItem, StickerMessage,
+	TextMessage, QuickReply, QuickReplyItem, StickerMessage,
 	PostbackAction, FlexMessage, FlexBubble, FlexBox, FlexText
 )
 
 ##################################################
 
 ## function to get part of lyrics and other 3 choices
-def create_lyrics_quiz(previous_answer=None):
+## level 1 = god, level 4 = beginner
+def create_lyrics_quiz(previous_answers=None, level=1, num_choices=4):
 	songs_to_drop = ['Flying', 'Revolution 9'] ## no lyrics
-	if previous_answer != None:
-		songs_to_drop.append(previous_answer)  ## exclude previous answer
-	selected_song = DATA.drop(index=songs_to_drop)['lyrics'].sample(4)
+	if previous_answers != None:
+		songs_to_drop += previous_answers  ## exclude previous answers
+	selected_song = DATA[DATA.popularity >= level].drop(index=songs_to_drop)['lyrics'].sample(num_choices)
 	answer_title = selected_song.index[0]  ## correct answer 
 	wrong_titles = selected_song.index[1:]  ## wrong answers
 	selected_song_tokens = selected_song.iloc[0].split()
-	token_length = random.randint(5, 9)  ## num of tokens 
+	if level == 1:
+		token_length = random.randint(5, 7)  ## level god : a few num of tokens 
+	elif level <= 3:
+		token_length = random.randint(6, 10)
+	elif level == 4:
+		token_length = random.randint(7, 11)  ## level beginner : many num of tokens 
 	start_token_index = random.randint(0, len(selected_song_tokens)-token_length)
 	partial_lyrics = ' '.join(selected_song_tokens[start_token_index:start_token_index+token_length])
 	
@@ -26,8 +32,20 @@ def create_lyrics_quiz(previous_answer=None):
 
 def create_lyricsquiz_postback(postback):
 	postback_dict = parse_postback(postback)
-	postback_dict['question'] += 1 ## present question number
-
+	
+	## START Lyrics QUIZ - SELECT LEVEL
+	if postback_dict['level'] == 0:
+		quickreply = QuickReply(items=[])
+		for level in range(4, 0):
+			label = {4:'beginner', 3:'normal', 2:'hard', 1:'god'}[level]
+			postback_dict['level'] = level
+			if level == 1:
+				postback_dict['num'] = 10
+			item = QuickReplyItem(action=PostbackAction(label=label, displayText=label, data=encode_postback(postback_dict)))
+			quickreply.items.append(item)
+		return [TextMessage(text='select level', quickReply=quickreply)]
+	
+	postback_dict['question'] += 1 ## present question number + 1
 	reply_bubble = FlexBubble()
 
 	## HEADER - display previous answer
@@ -48,13 +66,17 @@ def create_lyricsquiz_postback(postback):
 		)
 
 	## make quick reply items
-	if postback_dict['question'] <= 5: ## previous question No.
+	if postback_dict['question'] <= postback_dict['num']: ## present question No. <= total num
+		level = postback_dict['level']
+		num_choices = {1:4, 2:4, 3:5, 4:6}[level]
+
 		if postback_dict['answer'] == 'NONE': ## first question
-			partial_lyrics, answer_title, wrong_titles = create_lyrics_quiz()
+			partial_lyrics, answer_title, wrong_titles = create_lyrics_quiz(None, level, num_choices)
 		else:
-			partial_lyrics, answer_title, wrong_titles = create_lyrics_quiz(postback_dict['answer']) ## drop previous answer
+			partial_lyrics, answer_title, wrong_titles = create_lyrics_quiz(postback_dict['asked', level, num_choices]) ## drop previous answer
 		
-		postback_dict['answer'] = answer_title  ## update answer song title
+		postback_dict['answer'] = answer_title  ## update answer song
+		postback_dict['asked'].append(answer_title)
 		quickreply_buttons = []
 		
 		## add wrong answer button
@@ -96,23 +118,39 @@ def create_lyricsquiz_postback(postback):
 			layout='vertical',
 			backgroundColor='#EEEEEE',
 			paddingAll='xs',
-			contents=[FlexText(text=f'SCORE : {postback_dict["score"]} / 5', size='xl', weight='bold', align='center')]
+			contents=[FlexText(text=f'SCORE : {postback_dict["score"]} / {postback_dict["num"]}', size='xl', weight='bold', align='center')]
 		)
 
 		## FOOTER - evaluation message 
-		result_evaluation = {
-			5: 'You are the true Beatlemania!',
-			4: 'Close! Just a little more!',
-			3: 'You are an ordinary fan',
-			2: 'Study more about The Beatles',
-			1: 'Please Help Me!',
-			0: 'Paul is crying'
-		}[postback_dict['score']]
+		if postback_dict['num'] == 5:
+			result_evaluation = {
+				5: 'You are a good fan!',
+				4: 'Close! Just a little more!',
+				3: 'You are an ordinary fan',
+				2: 'Study more about The Beatles',
+				1: 'Please Help Me!',
+				0: 'Paul is crying'
+			}[postback_dict['score']]
+		else:
+			result_evaluation = {
+				10: 'You are the true Beatlemania!',
+				9: 'Close! Just a little more!',
+				8: 'Close! Just a little more!',
+				7: 'You\'re a good fan',
+				6: 'You\'re a good fan',
+				5: 'You are an ordinary fan',
+				4: 'You are an ordinary fan',
+				3: 'Study more about The Beatles',
+				2: 'Study more about The Beatles',
+				1: 'Please Help Me!',
+				0: 'Paul is crying'
+			}[postback_dict['score']]
+			
 		reply_bubble.footer = FlexBox(
 			layout='vertical',
 			contents=[FlexText(text=result_evaluation, wrap=True, weight='bold', align='center')]
 		)
-		messages = [FlexMessage(altText=f'SCORE : {postback_dict["score"]} / 5', contents=reply_bubble)]
+		messages = [FlexMessage(altText=f'SCORE : {postback_dict["score"]} / {postback_dict["num"]}', contents=reply_bubble)]
 		if postback_dict['score'] == 0: ## if score is 0, send a sticker
 			messages.append(random.choice([
 				StickerMessage(packageId="789", stickerId="10887"),

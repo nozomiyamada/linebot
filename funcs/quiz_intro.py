@@ -59,11 +59,13 @@ def create_introquiz_postback(postback):
 
 	## make quick reply items
 	if postback_dict['question'] <= postback_dict['num']: ## present question No. <= total num
-		num_choices = {1:4, 2:4, 3:5, 4:6}[postback_dict['level']]
+		level = postback_dict['level']
+		num_choices = {1:4, 2:4, 3:5, 4:6}[level]
+
 		if postback_dict['answer'] == 'NONE': ## first question
-			answer_song_url, answer_title, wrong_titles, duration = create_intro_quiz(level=postback_dict['level'], num_choices=num_choices)
+			answer_song_url, answer_title, wrong_titles, duration = create_intro_quiz(None, level, num_choices)
 		else:
-			answer_song_url, answer_title, wrong_titles, duration = create_intro_quiz(postback_dict['asked'],postback_dict['level'], num_choices=num_choices) ## drop previous answer
+			answer_song_url, answer_title, wrong_titles, duration = create_intro_quiz(postback_dict['asked'], level, num_choices) ## drop previous answer
 		
 		postback_dict['answer'] = answer_title  ## update answer song
 		postback_dict['asked'].append(answer_title)
@@ -138,6 +140,7 @@ def create_introquiz_postback(postback):
 				1: 'Please Help Me!',
 				0: 'Paul is crying'
 			}[postback_dict['score']]
+			
 		reply_bubble.footer = FlexBox(
 			layout='vertical',
 			contents=[FlexText(text=result_evaluation, wrap=True, weight='bold', align='center')]
