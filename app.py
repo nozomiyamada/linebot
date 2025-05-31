@@ -127,7 +127,7 @@ def handle_message(event):
 		messages = create_introquiz_postback(postback=postback)
 	## MODE : THAI TRANSLATION
 	elif re.match(r'(タイ語?|翻訳)', received_message):
-		content = re.replace(r'(タイ語?|翻訳)', '', received_message).strip()
+		content = re.sub(r'(タイ語?|翻訳)', '', received_message).strip()
 		response = gemini_client.models.generate_content(
 			model='gemini-2.0-flash-001',
 			contents=content,
