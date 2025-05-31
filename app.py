@@ -133,7 +133,7 @@ def handle_message(event):
 			contents=content,
 			config=types.GenerateContentConfig(system_instruction=instruction),
 		)
-		messages = response.text
+		messages = [TextMessage(text=response.text)]
 	## MODE : OFFICIAL YOUTUBE
 	else:
 		messages = get_official_youtube(received_message)
