@@ -9,6 +9,8 @@ from linebot.v3.messaging import (
 from linebot.v3.webhooks import (
 	FollowEvent, MessageEvent, PostbackEvent, TextMessageContent
 )
+from google import genai
+from google.genai import types
 import os, re, random
 
 from funcs import *
@@ -21,6 +23,7 @@ load_dotenv()
 ## environment variables
 CHANNEL_ACCESS_TOKEN = os.environ["CHANNEL_ACCESS_TOKEN"]
 CHANNEL_SECRET = os.environ["CHANNEL_SECRET"]
+GEMINI_APIKEY = os.environ['GEMINI_APIKEY']
 
 ## Flask instantiation
 app = Flask(__name__)
@@ -28,6 +31,31 @@ app = Flask(__name__)
 ## LINE instantiation
 configuration = Configuration(access_token=CHANNEL_ACCESS_TOKEN)
 handler = WebhookHandler(CHANNEL_SECRET)
+
+## GEMINI instantiation
+gemini_client = genai.Client(api_key=GEMINI_APIKEY)
+instruction = """あなたは日本語とタイ語の先生です。
+日本語からタイ語翻訳の場合はカタカナでなく発音記号をつけてください。
+その際に表記は The Royal Thai General System of Transcription に従い、国際音声記号ではなく声調記号付きアルファベットで出力してください。
+その際に大文字にする必要はありません。
+
+以下は回答例です。
+
+質問：
+あなたは明日どこへ行って何を食べますか？
+
+回答：
+พรุ่งนี้คุณจะไปที่ไหนและทานอะไร
+[phrûngníi khun cà pai thîinǎi láe thaan arai]
+
+- พรุ่งนี้ (phrûngníi): 明日
+- คุณ (khun): あなた
+- จะ (cà): ～するつもり
+- ไป (pai): 行く
+- ที่ไหน (thîinǎi): どこ
+- และ (láe): そして
+- ทาน (thaan): 会う
+- อะไร (arai): 何"""
 
 ## callback function (copied from official GitHub)
 @app.route("/callback", methods=['POST'])
@@ -97,6 +125,15 @@ def handle_message(event):
 	elif re.match(r'(intro|イントロ)(quiz|クイズ)?', received_message):
 		postback = 'mode=introquiz&level=0&num_q=5&question=0&score=0&answer=NONE&asked=@&correct=T'
 		messages = create_introquiz_postback(postback=postback)
+	## MODE : THAI TRANSLATION
+	elif re.match(r'(タイ語?|翻訳)', received_message):
+		content = re.replace(r'(タイ語?|翻訳)', '', received_message).strip()
+		response = gemini_client.models.generate_content(
+			model='gemini-2.0-flash-001',
+			contents=content,
+			config=types.GenerateContentConfig(system_instruction=instruction),
+		)
+		messages = response.text
 	## MODE : OFFICIAL YOUTUBE
 	else:
 		messages = get_official_youtube(received_message)
