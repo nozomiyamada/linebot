@@ -128,12 +128,15 @@ def handle_message(event):
 	## MODE : THAI TRANSLATION
 	elif re.match(r'(タイ語?|翻訳)', received_message):
 		content = re.sub(r'(タイ語?|翻訳)', '', received_message).strip()
-		response = gemini_client.models.generate_content(
+		try:
+			response = gemini_client.models.generate_content(
 			model='gemini-2.0-flash-001',
 			contents=content,
 			config=types.GenerateContentConfig(system_instruction=instruction),
-		)
-		messages = [TextMessage(text=response.text)]
+			)
+			messages = [TextMessage(text=response.text)]
+		except:
+			messages = [TextMessage(text="翻訳に失敗しました")]
 	## MODE : OFFICIAL YOUTUBE
 	else:
 		messages = get_official_youtube(received_message)
